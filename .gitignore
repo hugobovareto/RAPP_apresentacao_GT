@@ -1,0 +1,28 @@
+# Ignorar toda a pasta dados
+dados/
+relatorios_gerados/
+relatorios_pdf/
+
+# Ignorar ambiente virtual
+venv/
+
+# Ignorar arquivos temporários do VS Code
+.vscode/
+
+# Ignorar arquivos do Python
+*.pyc
+__pycache__/
+
+
+# Ignorar aquivos .pdf
+*.pdf
+
+# Ignorar apresentacoes geradas
+apresentacoes_geradas/
+
+
+# Dados
+*.csv
+*.xlsx
+*.xls
+*.xlsb
