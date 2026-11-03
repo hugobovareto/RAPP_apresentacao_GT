@@ -17,6 +17,10 @@ __pycache__/
 # Ignorar aquivos .pdf
 *.pdf
 
+Ignorar imagens geradas
+*.png
+*.jpg
+
 # Ignorar apresentacoes geradas
 apresentacoes_geradas/
 
