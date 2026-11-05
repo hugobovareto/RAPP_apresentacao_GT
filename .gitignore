@@ -24,6 +24,8 @@ Ignorar imagens geradas
 # Ignorar apresentacoes geradas
 apresentacoes_geradas/
 
+# Ignorar pasta de gráficos
+graficos_gerados/
 
 # Dados
 *.csv

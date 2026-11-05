@@ -68,6 +68,7 @@ warnings.filterwarnings('ignore')
 from tqdm import tqdm
 import matplotlib.ticker as mtick
 from matplotlib.patches import FancyBboxPatch
+from datetime import datetime
 
 
 # AVALIA POTIGUAR
@@ -86,6 +87,12 @@ Variáveis:
 - liberad_avalia
 - graf_perc_liberados_direc_avalia
 '''
+
+# Data de hoje
+data = datetime.now().strftime('%d/%m/%Y')
+
+# Pasta de destino dos gráficos
+pasta_graficos = os.path.join(os.getcwd(), 'graficos_gerados')
 
 # Carregar base de dados do Avalia Potiguar:
 df_avalia = pd.read_excel(r'D:\Scripts_Python\FGV\RAPP_apresentacao_GT\dados\relatorio_acompanhamento_rapp_ept_div.xlsx', sheet_name='Relatório RAPP')
@@ -113,6 +120,8 @@ agendados_avalia = (
 # perc_agend_avalia: componentes agendados / total de componentes
 perc_agend_avalia = round((agendados_avalia / total_agend_avalia) * 100, 2)
 
+# Variável combinada para a apresentação
+agend_avalia = f"{int(agendados_avalia)} / {int(total_agend_avalia)}"
 
 # barra_agend_avalia
 # Valor do percentual
@@ -172,9 +181,16 @@ fig.patch.set_alpha(0)
 # Remover margens
 plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
 
+# Definir o caminho exato do arquivo
+caminho_grafico = os.path.join(pasta_graficos, 'barra_agend_avalia.png')
+
+# Forçar a remoção do arquivo antigo (se existir) para evitar bloqueios do sistema operacional
+if os.path.exists(caminho_grafico):
+    os.remove(caminho_grafico)
+
 # Salvar imagem
 plt.savefig(
-    'barra_agend_avalia.png',
+    caminho_grafico,
     dpi=300,
     transparent=True,
     bbox_inches='tight',
@@ -183,6 +199,8 @@ plt.savefig(
 
 plt.show()
 
+# Limpar a memória fechando a figura atual
+plt.close(fig)
 
 # ESTUDANTE - AVALIA POTIGUAR
 # 'estud_avalia' é composto por 'estudantes liberados' (liberad_avalia) e 'total de estudantes'
@@ -204,6 +222,8 @@ liberad_avalia = estudantes_liberados_avalia.sum()
 # perc_estud_avalia: estudantes liberados / total de estudantes
 perc_estud_avalia = round((liberad_avalia / total_estud_avalia) * 100, 2)
 
+# Variável combinada para a apresentação
+estud_avalia = f"{int(liberad_avalia)} / {int(total_estud_avalia)}"
 
 # barra_estud_avalia
 # Valor do percentual
@@ -263,9 +283,16 @@ fig.patch.set_alpha(0)
 # Remover margens
 plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
 
+# Definir o caminho exato do arquivo
+caminho_grafico = os.path.join(pasta_graficos, 'barra_estud_avalia.png')
+
+# Forçar a remoção do arquivo antigo (se existir) para evitar bloqueios do sistema operacional
+if os.path.exists(caminho_grafico):
+    os.remove(caminho_grafico)
+
 # Salvar imagem
 plt.savefig(
-    'barra_estud_avalia.png',
+    caminho_grafico,
     dpi=300,
     transparent=True,
     bbox_inches='tight',
@@ -274,6 +301,8 @@ plt.savefig(
 
 plt.show()
 
+# Limpar a memória fechando a figura atual
+plt.close(fig)
 
 # COMPONENTES - AVALIA POTIGUAR
 # 'comp_avalia' é composto por 'componentes aprovados' e 'total de componentes'
@@ -287,6 +316,8 @@ aprovados_comp_avalia = df_avalia[df_avalia['SITUAÇÃO DA AVALIAÇÃO'] == 'APR
 # perc_comp_avalia: componentes aprovados / total de componentes
 perc_comp_avalia = round((aprovados_comp_avalia / total_comp_avalia) * 100, 2)
 
+# Variável combinada para a apresentação
+comp_avalia = f"{int(aprovados_comp_avalia)} / {int(total_comp_avalia)}"
 
 # barra_comp_avalia
 # Valor do percentual
@@ -346,9 +377,16 @@ fig.patch.set_alpha(0)
 # Remover margens
 plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
 
+# Definir o caminho exato do arquivo
+caminho_grafico = os.path.join(pasta_graficos, 'barra_comp_avalia.png')
+
+# Forçar a remoção do arquivo antigo (se existir) para evitar bloqueios do sistema operacional
+if os.path.exists(caminho_grafico):
+    os.remove(caminho_grafico)
+
 # Salvar imagem
 plt.savefig(
-    'barra_comp_avalia.png',
+    caminho_grafico,
     dpi=300,
     transparent=True,
     bbox_inches='tight',
@@ -357,6 +395,8 @@ plt.savefig(
 
 plt.show()
 
+# Limpar a memória fechando a figura atual
+plt.close(fig)
 
 # graf_perc_agendamentos_direc_avalia: Gráfico de barras com percentual de componentes agendamentos por DIREC
 # Situações que representam componentes não agendados
@@ -459,9 +499,16 @@ ax.patch.set_alpha(0)
 # Ajustar layout
 plt.tight_layout()
 
+# Definir o caminho exato do arquivo
+caminho_grafico = os.path.join(pasta_graficos, 'grafico_agendamento_direc_avalia.png')
+
+# Forçar a remoção do arquivo antigo (se existir) para evitar bloqueios do sistema operacional
+if os.path.exists(caminho_grafico):
+    os.remove(caminho_grafico)
+
 # Salvar PNG
 plt.savefig(
-    'grafico_agendamento_direc_avalia.png',
+    caminho_grafico,
     dpi=300,
     transparent=True,
     bbox_inches='tight'
@@ -469,6 +516,8 @@ plt.savefig(
 
 plt.show()
 
+# Limpar a memória fechando a figura atual
+plt.close(fig)
 
 
 # graf_perc_liberados_direc_avalia: Gráfico de barras com percentual de estudantes liberados por DIREC
@@ -567,9 +616,16 @@ ax.patch.set_alpha(0)
 # Ajustar layout
 plt.tight_layout()
 
+# Definir o caminho exato do arquivo
+caminho_grafico = os.path.join(pasta_graficos, 'grafico_estudantes_liberados_direc_avalia.png')
+
+# Forçar a remoção do arquivo antigo (se existir) para evitar bloqueios do sistema operacional
+if os.path.exists(caminho_grafico):
+    os.remove(caminho_grafico)
+
 # Salvar PNG
 plt.savefig(
-    'grafico_estudantes_liberados_direc_avalia.png',
+    caminho_grafico,
     dpi=300,
     transparent=True,
     bbox_inches='tight'
@@ -577,6 +633,8 @@ plt.savefig(
 
 plt.show()
 
+# Limpar a memória fechando a figura atual
+plt.close(fig)
 
 ###########################################
 # PLURALL
@@ -640,7 +698,9 @@ qtd_plurall_turmas_agendadas = plurall_turmas_agendadas.sum()
 # perc_agend_plurall: turmas agendadas / total de turmas de agendamento
 perc_agend_plurall = round((qtd_plurall_turmas_agendadas / total_agend_plurall) * 100, 2)
 
-perc_agend_plurall
+# Variável combinada para a apresentação
+agend_plurall = f"{int(qtd_plurall_turmas_agendadas)} / {int(total_agend_plurall)}"
+
 # barra_agend_plurall
 # Valor do percentual
 percentual = perc_agend_plurall
@@ -699,9 +759,16 @@ fig.patch.set_alpha(0)
 # Remover margens
 plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
 
+# Definir o caminho exato do arquivo
+caminho_grafico = os.path.join(pasta_graficos, 'barra_agend_plurall.png')
+
+# Forçar a remoção do arquivo antigo (se existir) para evitar bloqueios do sistema operacional
+if os.path.exists(caminho_grafico):
+    os.remove(caminho_grafico)
+
 # Salvar imagem
 plt.savefig(
-    'barra_agend_plurall.png',
+    caminho_grafico,
     dpi=300,
     transparent=True,
     bbox_inches='tight',
@@ -709,6 +776,9 @@ plt.savefig(
 )
 
 plt.show()
+
+# Limpar a memória fechando a figura atual
+plt.close(fig)
 
 # ESTUDANTE - PLURALL
 # estud_plurall é composto por 'estudantes liberados' (liberad_plurall) e 'total de estudantes'
@@ -729,6 +799,10 @@ liberad_plurall = estudantes_liberados_plurall.sum()
 
 # perc_estud_plurall: estudantes liberados / total de estudantes
 perc_estud_plurall = round((liberad_plurall / total_estud_plurall) * 100, 2)
+
+# Variável combinada para a apresentação
+estud_plurall = f"{int(liberad_plurall)} / {int(total_estud_plurall)}"
+
 
 # barra_estud_plurall
 # Valor do percentual
@@ -788,9 +862,16 @@ fig.patch.set_alpha(0)
 # Remover margens
 plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
 
+# Definir o caminho exato do arquivo
+caminho_grafico = os.path.join(pasta_graficos, 'barra_estud_plurall.png')
+
+# Forçar a remoção do arquivo antigo (se existir) para evitar bloqueios do sistema operacional
+if os.path.exists(caminho_grafico):
+    os.remove(caminho_grafico)
+
 # Salvar imagem
 plt.savefig(
-    'barra_estud_plurall.png',
+    caminho_grafico,
     dpi=300,
     transparent=True,
     bbox_inches='tight',
@@ -799,6 +880,8 @@ plt.savefig(
 
 plt.show()
 
+# Limpar a memória fechando a figura atual
+plt.close(fig)
 
 # COMPONENTES - PLURALL
 # 'comp_plurall' é composto por 'componentes aprovados' e 'total de componentes'
@@ -811,6 +894,9 @@ aprovados_comp_plurall = df_plurall_prova[df_plurall_prova['Situação'] == 'Apr
 
 # perc_comp_plurall: componentes aprovados / total de componentes
 perc_comp_plurall = round((aprovados_comp_plurall / total_comp_plurall) * 100, 2)
+
+# Variável combinada para a apresentação
+comp_plurall = f"{int(aprovados_comp_plurall)} / {int(total_comp_plurall)}"
 
 # barra_comp_plurall
 # Valor do percentual
@@ -870,9 +956,16 @@ fig.patch.set_alpha(0)
 # Remover margens
 plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
 
+# Definir o caminho exato do arquivo
+caminho_grafico = os.path.join(pasta_graficos, 'barra_comp_plurall.png')
+
+# Forçar a remoção do arquivo antigo (se existir) para evitar bloqueios do sistema operacional
+if os.path.exists(caminho_grafico):
+    os.remove(caminho_grafico)
+
 # Salvar imagem
 plt.savefig(
-    'barra_comp_plurall.png',
+    caminho_grafico,
     dpi=300,
     transparent=True,
     bbox_inches='tight',
@@ -881,6 +974,8 @@ plt.savefig(
 
 plt.show()
 
+# Limpar a memória fechando a figura atual
+plt.close(fig)
 
 # graf_perc_agendamentos_direc_plurall: Gráfico de barras com percentual de agendamento por DIREC
 # Converter AGENDOU para booleano
@@ -977,9 +1072,16 @@ ax.patch.set_alpha(0)
 # Ajustar layout
 plt.tight_layout()
 
+# Definir o caminho exato do arquivo
+caminho_grafico = os.path.join(pasta_graficos, 'grafico_agendamento_direc_plurall.png')
+
+# Forçar a remoção do arquivo antigo (se existir) para evitar bloqueios do sistema operacional
+if os.path.exists(caminho_grafico):
+    os.remove(caminho_grafico)
+
 # Salvar PNG
 plt.savefig(
-    'grafico_agendamento_direc_plurall.png',
+    caminho_grafico,
     dpi=300,
     transparent=True,
     bbox_inches='tight'
@@ -987,6 +1089,8 @@ plt.savefig(
 
 plt.show()
 
+# Limpar a memória fechando a figura atual
+plt.close(fig)
 
 
 # graf_perc_liberados_direc_plurall: Gráfico de barras com percentual de estudantes liberados por DIREC
@@ -1088,9 +1192,16 @@ ax.patch.set_alpha(0)
 # Ajustar layout
 plt.tight_layout()
 
+# Definir o caminho exato do arquivo
+caminho_grafico = os.path.join(pasta_graficos, 'grafico_estudantes_liberados_direc_plurall.png')
+
+# Forçar a remoção do arquivo antigo (se existir) para evitar bloqueios do sistema operacional
+if os.path.exists(caminho_grafico):
+    os.remove(caminho_grafico)
+
 # Salvar PNG
 plt.savefig(
-    'grafico_estudantes_liberados_direc_plurall.png',
+    caminho_grafico,
     dpi=300,
     transparent=True,
     bbox_inches='tight'
@@ -1098,11 +1209,8 @@ plt.savefig(
 
 plt.show()
 
-
-
-
-
-
+# Limpar a memória fechando a figura atual
+plt.close(fig)
 
 
 
@@ -1197,3 +1305,177 @@ Dados e gráficos para a Avaliação Plurall, na base que considera também os e
 Dados e gráficos para a mesclagem da Avaliação Plurall e Avalia Potiguar. 
 A base da Plurall considera os estudantes do 1º e 2º ciclos.
 '''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##################################################################################################################################
+
+# Salvar as variáveis para usar na apresentação do GT
+# Planilha de dados com os valores das variáveis para apresentação
+# Dicionário reunindo o nome da variável e seu valor final
+dados_variaveis = {
+    'data': data,
+    
+    # Avalia Potiguar
+    'perc_agend_avalia': perc_agend_avalia,
+    'agend_avalia': agend_avalia,
+    'perc_estud_avalia': perc_estud_avalia,
+    'estud_avalia': estud_avalia,
+    'perc_comp_avalia': perc_comp_avalia,
+    'comp_avalia': comp_avalia,
+    'liberad_avalia': liberad_avalia,
+    
+    # Plurall
+    'perc_agend_plurall': perc_agend_plurall,
+    'agend_plurall': agend_plurall,
+    'perc_estud_plurall': perc_estud_plurall,
+    'estud_plurall': estud_plurall,
+    'perc_comp_plurall': perc_comp_plurall,
+    'comp_plurall': comp_plurall,
+    'liberad_plurall': liberad_plurall
+}
+
+# Conversão do dicionário para um DataFrame do Pandas com 2 colunas
+df_exportacao = pd.DataFrame(list(dados_variaveis.items()), columns=['Variável', 'Valor'])
+
+# Salvando o DataFrame em um arquivo Excel na mesma pasta dos gráficos
+caminho_planilha = os.path.join(pasta_graficos, 'variaveis_calculadas.xlsx')
+df_exportacao.to_excel(caminho_planilha, index=False)
+
+
+
+##########################################################################################################################
+# Preencher o PPT
+# 1. Caminhos dos arquivos
+caminho_template = r"D:\Scripts_Python\FGV\RAPP_apresentacao_GT\template_GARN_Reuniao de alinhamento RAPP.pptx"
+caminho_saida = r"D:\Scripts_Python\FGV\RAPP_apresentacao_GT\apresentacoes_geradas\GARN_Reuniao de alinhamento RAPP.pptx"
+
+# 2. Carregar a apresentação base
+prs = Presentation(caminho_template)
+
+# 3. Dicionários de Substituição
+# Mapeamento de TEXTOS
+# A chave (lado esquerdo) é exatamente o que está escrito na caixa de texto do seu PowerPoint
+substituicoes_texto = {
+    'perc_agend_avalia': f"{perc_agend_avalia}%",
+    'agend_avalia': agend_avalia,
+    'perc_estud_avalia': f"{perc_estud_avalia}%",
+    'estud_avalia': estud_avalia,
+    'perc_comp_avalia': f"{perc_comp_avalia}%",
+    'comp_avalia': comp_avalia,
+    'perc_agend_plurall': f"{perc_agend_plurall}%",
+    'agend_plurall': agend_plurall,
+    'perc_estud_plurall': f"{perc_estud_plurall}%",
+    'estud_plurall': estud_plurall,
+    'perc_comp_plurall': f"{perc_comp_plurall}%",
+    'comp_plurall': comp_plurall,
+}
+
+# Mapeamento de IMAGENS (Gráficos)
+# A chave é o que está escrito no PowerPoint; o valor é o caminho do PNG gerado.
+substituicoes_imagem = {
+    'barra_agend_avalia': os.path.join(pasta_graficos, 'barra_agend_avalia.png'),
+    'barra_estud_avalia': os.path.join(pasta_graficos, 'barra_estud_avalia.png'),
+    'barra_comp_avalia': os.path.join(pasta_graficos, 'barra_comp_avalia.png'),
+    'graf_perc_agendamentos_direc_avalia': os.path.join(pasta_graficos, 'grafico_agendamento_direc_avalia.png'),
+    'graf_perc_liberados_direc_avalia': os.path.join(pasta_graficos, 'grafico_estudantes_liberados_direc_avalia.png'),
+    'barra_agend_plurall': os.path.join(pasta_graficos, 'barra_agend_plurall.png'),
+    'barra_estud_plurall': os.path.join(pasta_graficos, 'barra_estud_plurall.png'),
+    'barra_comp_plurall': os.path.join(pasta_graficos, 'barra_comp_plurall.png'),
+    'graf_perc_agendamentos_direc_plurall': os.path.join(pasta_graficos, 'grafico_agendamento_direc_plurall.png'),
+    'graf_perc_liberados_direc_plurall': os.path.join(pasta_graficos, 'grafico_estudantes_liberados_direc_plurall.png'),
+}
+
+# 4. Iterar sobre todos os slides e formas (shapes)
+for slide in prs.slides:
+    # list(slide.shapes) é necessário para podermos deletar shapes durante o loop sem quebrar a iteração
+    for shape in list(slide.shapes):
+        
+        # Ignorar formas que não contêm texto
+        if not shape.has_text_frame:
+            continue
+            
+        # -------------------------------------------------------------
+        # ETAPA A: Substituição de IMAGENS
+        # Se o texto da forma for o nome de um gráfico, trocamos pela imagem
+        # -------------------------------------------------------------
+        imagem_inserida = False
+        for texto_chave, caminho_img in substituicoes_imagem.items():
+            if texto_chave in shape.text:
+                if os.path.exists(caminho_img):
+                    # Pega as dimensões da caixa de texto placeholder
+                    left = shape.left
+                    top = shape.top
+                    width = shape.width
+                    height = shape.height
+                    
+                    # Insere a imagem no mesmo lugar. 
+                    # Se você não quiser distorção, pode remover o argumento 'height=height' para ele manter a proporção natural
+                    slide.shapes.add_picture(caminho_img, left, top, width=width, height=height)
+                    
+                    # Remove a caixa de texto original do slide
+                    sp = shape._element
+                    sp.getparent().remove(sp)
+                    
+                    imagem_inserida = True
+                    break # Interrompe a busca de imagens para este shape
+                else:
+                    print(f"⚠️ Imagem não encontrada: {caminho_img}")
+        
+        # Se acabamos de deletar o shape para colocar a imagem, pulamos para o próximo shape
+        if imagem_inserida:
+            continue
+
+        # -------------------------------------------------------------
+        # ETAPA B: Substituição de TEXTOS
+        # -------------------------------------------------------------
+        # Verifica novamento se o shape ainda tem texto (por segurança)
+        if shape.has_text_frame:
+            for paragraph in shape.text_frame.paragraphs:
+                for run in paragraph.runs:
+                    for texto_chave, valor_texto in substituicoes_texto.items():
+                        if texto_chave in run.text:
+                            # Substitui o marcador pelo valor real, mantendo a formatação original (fonte, cor)
+                            run.text = run.text.replace(texto_chave, str(valor_texto))
+
+# 5. Salvar a apresentação final gerada
+prs.save(caminho_saida)
+print(f"✅ Apresentação gerada com sucesso em: {caminho_saida}")
+
+
