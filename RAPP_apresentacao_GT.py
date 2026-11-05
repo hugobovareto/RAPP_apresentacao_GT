@@ -89,7 +89,7 @@ Variáveis:
 '''
 
 # Data de hoje
-data = datetime.now().strftime('%d/%m/%Y')
+data_hoje = datetime.now().strftime('%d/%m/%Y')
 
 # Pasta de destino dos gráficos
 pasta_graficos = os.path.join(os.getcwd(), 'graficos_gerados')
@@ -118,7 +118,7 @@ agendados_avalia = (
 ).sum()
 
 # perc_agend_avalia: componentes agendados / total de componentes
-perc_agend_avalia = round((agendados_avalia / total_agend_avalia) * 100, 2)
+perc_agend_avalia = round((agendados_avalia / total_agend_avalia) * 100)
 
 # Variável combinada para a apresentação
 agend_avalia = f"{int(agendados_avalia)} / {int(total_agend_avalia)}"
@@ -220,7 +220,7 @@ liberad_avalia = estudantes_liberados_avalia.sum()
 
 
 # perc_estud_avalia: estudantes liberados / total de estudantes
-perc_estud_avalia = round((liberad_avalia / total_estud_avalia) * 100, 2)
+perc_estud_avalia = round((liberad_avalia / total_estud_avalia) * 100)
 
 # Variável combinada para a apresentação
 estud_avalia = f"{int(liberad_avalia)} / {int(total_estud_avalia)}"
@@ -314,7 +314,7 @@ total_comp_avalia = df_avalia['COMPONENTE CURRICULAR'].count()
 aprovados_comp_avalia = df_avalia[df_avalia['SITUAÇÃO DA AVALIAÇÃO'] == 'APROVADO']['COMPONENTE CURRICULAR'].count()
 
 # perc_comp_avalia: componentes aprovados / total de componentes
-perc_comp_avalia = round((aprovados_comp_avalia / total_comp_avalia) * 100, 2)
+perc_comp_avalia = round((aprovados_comp_avalia / total_comp_avalia) * 100)
 
 # Variável combinada para a apresentação
 comp_avalia = f"{int(aprovados_comp_avalia)} / {int(total_comp_avalia)}"
@@ -368,7 +368,7 @@ ax.text(
     va='center',
     fontsize=12,
     fontweight='bold',
-    color="#c47e3c"
+    color="#ffffff"
 )
 
 # Fundo transparente
@@ -460,7 +460,7 @@ plt.setp(ax.get_xticklabels(), ha='right')
 # Percentuais no topo das barras
 ax.bar_label(
     barras,
-    labels=[f'{valor:.1f}%' for valor in df_grafico['PERCENTUAL']],
+    labels=[f'{valor:.0f}%' for valor in df_grafico['PERCENTUAL']],
     padding=4,
     fontsize=13,
     fontweight='bold'
@@ -577,7 +577,7 @@ plt.setp(ax.get_xticklabels(), ha='right')
 # Percentuais no topo das barras
 ax.bar_label(
     barras,
-    labels=[f'{valor:.1f}%' for valor in df_grafico['PERCENTUAL']],
+    labels=[f'{valor:.0f}%' for valor in df_grafico['PERCENTUAL']],
     padding=4,
     fontsize=13,
     fontweight='bold'
@@ -696,7 +696,7 @@ plurall_turmas_agendadas = (
 qtd_plurall_turmas_agendadas = plurall_turmas_agendadas.sum()
 
 # perc_agend_plurall: turmas agendadas / total de turmas de agendamento
-perc_agend_plurall = round((qtd_plurall_turmas_agendadas / total_agend_plurall) * 100, 2)
+perc_agend_plurall = round((qtd_plurall_turmas_agendadas / total_agend_plurall) * 100)
 
 # Variável combinada para a apresentação
 agend_plurall = f"{int(qtd_plurall_turmas_agendadas)} / {int(total_agend_plurall)}"
@@ -798,7 +798,7 @@ liberad_plurall = estudantes_liberados_plurall.sum()
 
 
 # perc_estud_plurall: estudantes liberados / total de estudantes
-perc_estud_plurall = round((liberad_plurall / total_estud_plurall) * 100, 2)
+perc_estud_plurall = round((liberad_plurall / total_estud_plurall) * 100)
 
 # Variável combinada para a apresentação
 estud_plurall = f"{int(liberad_plurall)} / {int(total_estud_plurall)}"
@@ -893,7 +893,7 @@ total_comp_plurall = df_plurall_prova['COMPONENTE CURRICULAR'].count()
 aprovados_comp_plurall = df_plurall_prova[df_plurall_prova['Situação'] == 'Aprovado']['COMPONENTE CURRICULAR'].count()
 
 # perc_comp_plurall: componentes aprovados / total de componentes
-perc_comp_plurall = round((aprovados_comp_plurall / total_comp_plurall) * 100, 2)
+perc_comp_plurall = round((aprovados_comp_plurall / total_comp_plurall) * 100)
 
 # Variável combinada para a apresentação
 comp_plurall = f"{int(aprovados_comp_plurall)} / {int(total_comp_plurall)}"
@@ -947,7 +947,7 @@ ax.text(
     va='center',
     fontsize=12,
     fontweight='bold',
-    color="#c47e3c"
+    color="#ffffff"
 )
 
 # Fundo transparente
@@ -1033,7 +1033,7 @@ plt.setp(ax.get_xticklabels(), ha='right')
 # Percentuais no topo das barras
 ax.bar_label(
     barras,
-    labels=[f'{valor:.1f}%' for valor in df_grafico['PERCENTUAL']],
+    labels=[f'{valor:.0f}%' for valor in df_grafico['PERCENTUAL']],
     padding=4,
     fontsize=13,
     fontweight='bold'
@@ -1153,7 +1153,7 @@ plt.setp(ax.get_xticklabels(), ha='right')
 # Percentuais no topo das barras
 ax.bar_label(
     barras,
-    labels=[f'{valor:.1f}%' for valor in df_grafico['PERCENTUAL']],
+    labels=[f'{valor:.0f}%' for valor in df_grafico['PERCENTUAL']],
     padding=4,
     fontsize=13,
     fontweight='bold'
@@ -1350,7 +1350,7 @@ A base da Plurall considera os estudantes do 1º e 2º ciclos.
 # Planilha de dados com os valores das variáveis para apresentação
 # Dicionário reunindo o nome da variável e seu valor final
 dados_variaveis = {
-    'data': data,
+    'data': data_hoje,
     
     # Avalia Potiguar
     'perc_agend_avalia': perc_agend_avalia,
@@ -1391,18 +1391,21 @@ prs = Presentation(caminho_template)
 
 # 3. Dicionários de Substituição
 # Mapeamento de TEXTOS
-# A chave (lado esquerdo) é exatamente o que está escrito na caixa de texto do seu PowerPoint
+# A chave (lado esquerdo) é exatamente o que está escrito na caixa de texto do PowerPoint
 substituicoes_texto = {
+    'data_hoje': f"{data_hoje}",
     'perc_agend_avalia': f"{perc_agend_avalia}%",
     'agend_avalia': agend_avalia,
     'perc_estud_avalia': f"{perc_estud_avalia}%",
     'estud_avalia': estud_avalia,
+    'liberad_avalia': liberad_avalia,
     'perc_comp_avalia': f"{perc_comp_avalia}%",
     'comp_avalia': comp_avalia,
     'perc_agend_plurall': f"{perc_agend_plurall}%",
     'agend_plurall': agend_plurall,
     'perc_estud_plurall': f"{perc_estud_plurall}%",
     'estud_plurall': estud_plurall,
+    'liberad_plurall': liberad_plurall,
     'perc_comp_plurall': f"{perc_comp_plurall}%",
     'comp_plurall': comp_plurall,
 }
@@ -1422,7 +1425,7 @@ substituicoes_imagem = {
     'graf_perc_liberados_direc_plurall': os.path.join(pasta_graficos, 'grafico_estudantes_liberados_direc_plurall.png'),
 }
 
-# 4. Iterar sobre todos os slides e formas (shapes)
+# Iterar sobre todos os slides e formas (shapes)
 for slide in prs.slides:
     # list(slide.shapes) é necessário para podermos deletar shapes durante o loop sem quebrar a iteração
     for shape in list(slide.shapes):
