@@ -2750,6 +2750,131 @@ plt.close(fig)
 
 
 
+###################################################
+# Respostas para o MP:
+# Utilizar o dado combinado de Avalia Potiguar, Plurall 1º ciclo + Plurall 2º ciclo
+'''
+1. Quantidade de estudantes que ingressaram em RAPP por etapa
+2. Quantidade de estudantes atualmente em RAPP por etapa
+3. Quantidade de estudantes aprovados em RAPP por etapa
+4. Distribuição de pendências por etapa
+'''
+
+# 1. Quantidade de estudantes que ingressaram em RAPP por etapa
+# Quantidade 'MATRÍCULA' distinta por 'ETAPA_RESUMIDA'
+qtd_estudantes_etapa = (
+    df_pa_prova
+    .groupby('ETAPA_RESUMIDA')['MATRÍCULA']
+    .nunique()
+    .reset_index(name='QUANTIDADE_ESTUDANTES')
+)
+
+qtd_estudantes_etapa
+
+# 2. Quantidade de estudantes atualmente em RAPP por etapa
+# Identificar matrículas aprovadas em todos os componentes
+matriculas_aprovadas = (
+    df_pa_prova
+    .groupby('MATRÍCULA')['SITUAÇÃO']
+    .apply(lambda x: (x == 'Aprovado').all())
+)
+
+matriculas_aprovadas = matriculas_aprovadas[
+    matriculas_aprovadas
+].index
+
+# Excluir estudantes aprovados em todas as linhas
+df_pa_rapp_atual = df_pa_prova[
+    ~df_pa_prova['MATRÍCULA'].isin(matriculas_aprovadas)
+].copy()
+
+# Quantidade de estudantes atualmente em RAPP por etapa
+qtd_estudantes_rapp_etapa = (
+    df_pa_rapp_atual
+    .groupby('ETAPA_RESUMIDA')['MATRÍCULA']
+    .nunique()
+    .reset_index(name='QTD_ESTUDANTES')
+)
+
+qtd_estudantes_rapp_etapa
+
+# 3. Quantidade de estudantes aprovados em RAPP por etapa
+# Filtrar estudantes aprovados em todos os componentes
+df_pa_aprovados = df_pa_prova[
+    df_pa_prova['MATRÍCULA'].isin(matriculas_aprovadas)
+].copy()
+
+# Quantidade de estudantes aprovados por etapa
+qtd_estudantes_aprovados_etapa = (
+    df_pa_aprovados
+    .groupby('ETAPA_RESUMIDA')['MATRÍCULA']
+    .nunique()
+    .reset_index(name='QTD_ESTUDANTES')
+)
+
+qtd_estudantes_aprovados_etapa
+
+# 4. Distribuição de pendências por etapa
+# Quantidade de estudantes únicos atualmente em RAPP
+# Quantidade de componentes por estudante
+df_componentes_estudante = (
+    df_pa_prova
+    .groupby(['ETAPA_RESUMIDA', 'MATRÍCULA'])
+    .size()
+    .reset_index(name='QTD_COMPONENTES')
+)
+
+# Distribuição da quantidade de componentes por etapa
+dist_componentes_etapa = (
+    df_componentes_estudante
+    .groupby(['ETAPA_RESUMIDA', 'QTD_COMPONENTES'])
+    .size()
+    .reset_index(name='QTD_ESTUDANTES')
+)
+
+# Total de estudantes por etapa
+dist_componentes_etapa['TOTAL_ETAPA'] = (
+    dist_componentes_etapa
+    .groupby('ETAPA_RESUMIDA')['QTD_ESTUDANTES']
+    .transform('sum')
+)
+
+# Percentual perante o total de estudantes
+dist_componentes_etapa['PERCENTUAL'] = (
+    dist_componentes_etapa['QTD_ESTUDANTES'] /
+    dist_componentes_etapa['TOTAL_ETAPA'] * 100
+).round(1)
+
+dist_componentes_etapa
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2815,6 +2940,24 @@ with pd.ExcelWriter(caminho_planilha, engine='openpyxl') as writer:
     df_exportacao.to_excel(writer, sheet_name='Variáveis', index=False)
     df_pa_prova.to_excel(writer, sheet_name='Prova - Plurall e Avalia', index=False)
     df_pa_agend.to_excel(writer, sheet_name='Agendamento - Plurall e Avalia', index=False)
+    qtd_estudantes_etapa.to_excel(writer, sheet_name='Ingressaram por Etapa', index=False)
+    qtd_estudantes_rapp_etapa.to_excel(writer, sheet_name='Atualmente em RAPP', index=False)
+    qtd_estudantes_aprovados_etapa.to_excel(writer, sheet_name='Aprovados por Etapa', index=False)
+    dist_componentes_etapa.to_excel(writer, sheet_name='Distribuição de Pendências', index=False)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2963,103 +3106,6 @@ print(f"✅ Apresentação gerada com sucesso em: {caminho_saida}")
 
 
 
-
-
-
-
-
-###################################################
-# Respostas para o MP:
-# Utilizar o dado combinado de Avalia Potiguar, Plurall 1º ciclo + Plurall 2º ciclo
-'''
-1. Quantidade de estudantes que ingressaram em RAPP por etapa
-2. Quantidade de estudantes atualmente em RAPP por etapa
-3. Quantidade de estudantes aprovados em RAPP por etapa
-4. Distribuição de pendências por etapa
-'''
-
-# 1. Quantidade de estudantes que ingressaram em RAPP por etapa
-# Quantidade 'MATRÍCULA' distinta por 'ETAPA_RESUMIDA'
-qtd_estudantes_etapa = (
-    df_pa_prova
-    .groupby('ETAPA_RESUMIDA')['MATRÍCULA']
-    .nunique()
-    .reset_index(name='QUANTIDADE_ESTUDANTES')
-)
-
-
-
-# 2. Quantidade de estudantes atualmente em RAPP por etapa
-# Identificar matrículas aprovadas em todos os componentes
-matriculas_aprovadas = (
-    df_pa_prova
-    .groupby('MATRÍCULA')['SITUAÇÃO']
-    .apply(lambda x: (x == 'Aprovado').all())
-)
-
-matriculas_aprovadas = matriculas_aprovadas[
-    matriculas_aprovadas
-].index
-
-# Excluir estudantes aprovados em todas as linhas
-df_pa_rapp_atual = df_pa_prova[
-    ~df_pa_prova['MATRÍCULA'].isin(matriculas_aprovadas)
-].copy()
-
-# Quantidade de estudantes atualmente em RAPP por etapa
-qtd_estudantes_rapp_etapa = (
-    df_pa_rapp_atual
-    .groupby('ETAPA_RESUMIDA')['MATRÍCULA']
-    .nunique()
-    .reset_index(name='QTD_ESTUDANTES')
-)
-
-
-# 3. Quantidade de estudantes aprovados em RAPP por etapa
-# Filtrar estudantes aprovados em todos os componentes
-df_pa_aprovados = df_pa_prova[
-    df_pa_prova['MATRÍCULA'].isin(matriculas_aprovadas)
-].copy()
-
-# Quantidade de estudantes aprovados por etapa
-qtd_estudantes_aprovados_etapa = (
-    df_pa_aprovados
-    .groupby('ETAPA_RESUMIDA')['MATRÍCULA']
-    .nunique()
-    .reset_index(name='QTD_ESTUDANTES')
-)
-
-
-# 4. Distribuição de pendências por etapa
-# Quantidade de estudantes únicos atualmente em RAPP
-# Quantidade de componentes por estudante
-df_componentes_estudante = (
-    df_pa_prova
-    .groupby(['ETAPA_RESUMIDA', 'MATRÍCULA'])
-    .size()
-    .reset_index(name='QTD_COMPONENTES')
-)
-
-# Distribuição da quantidade de componentes por etapa
-dist_componentes_etapa = (
-    df_componentes_estudante
-    .groupby(['ETAPA_RESUMIDA', 'QTD_COMPONENTES'])
-    .size()
-    .reset_index(name='QTD_ESTUDANTES')
-)
-
-# Total de estudantes por etapa
-dist_componentes_etapa['TOTAL_ETAPA'] = (
-    dist_componentes_etapa
-    .groupby('ETAPA_RESUMIDA')['QTD_ESTUDANTES']
-    .transform('sum')
-)
-
-# Percentual perante o total de estudantes
-dist_componentes_etapa['PERCENTUAL'] = (
-    dist_componentes_etapa['QTD_ESTUDANTES'] /
-    dist_componentes_etapa['TOTAL_ETAPA'] * 100
-).round(1)
 
 
 
